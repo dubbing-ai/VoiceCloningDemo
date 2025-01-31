@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import {
   Table,
@@ -25,6 +25,11 @@ interface AudioPlayerProps {
   label?: string;
 }
 
+interface ColumnHeaderProps {
+  title: string;
+  description: string;
+}
+
 interface TTSSectionProps {
   title: string;
   data: TTSData[];
@@ -36,11 +41,6 @@ interface ModelSectionProps {
   testData: TTSData[];
 }
 
-interface ColumnHeaderProps {
-  title: string;
-  description: string;
-}
-
 const columnDescriptions = {
   speaker: 'Unique identifier for each speaker in the dataset',
   originalText: 'Transcription of the original recorded speech',
@@ -50,13 +50,24 @@ const columnDescriptions = {
   generateText: 'New text input for speech synthesis',
   generatedSpeechNew:
     'Speech generated using the new text, with the original speech as voice reference input',
-};
+} as const;
 
 const AudioPlayer: React.FC<AudioPlayerProps> = ({ src, label }) => {
-  const [isPlaying, setIsPlaying] = React.useState(false);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const audioRef = useRef<HTMLAudioElement>(
+    new Audio('https://cdnjs.cloudflare.com/ajax/libs/ion-sound/3.0.7/sounds/bell_ring.mp3')
+  );
 
   const handlePlayPause = () => {
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
     setIsPlaying(!isPlaying);
+
+    // Reset playing state when audio ends
+    audioRef.current.onended = () => setIsPlaying(false);
   };
 
   return (
@@ -72,7 +83,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ src, label }) => {
         )}
       </button>
       <div className="text-sm text-gray-500 group-hover:text-blue-600 transition-colors duration-200">
-        {label || src}
+        {label}
       </div>
     </div>
   );
@@ -191,7 +202,7 @@ const TTSPage: React.FC = () => {
   return (
     <TooltipProvider>
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex flex-col items-center">
-        <div className="w-full max-w-[95vw] lg:max-w-[90vw] py-12">
+        <div className="w-full max-w-7xl py-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center">
             TTS Experiment Results
           </h1>
