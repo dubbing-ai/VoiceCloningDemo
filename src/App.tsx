@@ -1,35 +1,208 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from '@/components/ui/table';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Play, Pause, Info } from 'lucide-react';
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+interface TTSData {
+  speakerId: string;
+  originalText: string;
+  originalSpeech: string;
+  generatedSpeech: string;
+  generateText: string;
+  generatedSpeechNew: string;
 }
 
-export default App
+interface AudioPlayerProps {
+  src: string;
+  label?: string;
+}
+
+interface TTSSectionProps {
+  title: string;
+  data: TTSData[];
+}
+
+interface ModelSectionProps {
+  title: string;
+  trainData: TTSData[];
+  testData: TTSData[];
+}
+
+interface ColumnHeaderProps {
+  title: string;
+  description: string;
+}
+
+const columnDescriptions = {
+  speaker: 'Unique identifier for each speaker in the dataset',
+  originalText: 'Transcription of the original recorded speech',
+  originalSpeech: 'Original audio recording from the speaker',
+  generatedSpeech:
+    'Speech generated using the original text, with the original speech as voice reference input',
+  generateText: 'New text input for speech synthesis',
+  generatedSpeechNew:
+    'Speech generated using the new text, with the original speech as voice reference input',
+};
+
+const AudioPlayer: React.FC<AudioPlayerProps> = ({ src, label }) => {
+  const [isPlaying, setIsPlaying] = React.useState(false);
+
+  const handlePlayPause = () => {
+    setIsPlaying(!isPlaying);
+  };
+
+  return (
+    <div className="flex items-center justify-center gap-2 group">
+      <button
+        onClick={handlePlayPause}
+        className="p-2 rounded-full bg-gray-100 hover:bg-blue-100 transition-colors duration-200 group-hover:shadow-sm"
+      >
+        {isPlaying ? (
+          <Pause className="w-4 h-4 text-blue-600" />
+        ) : (
+          <Play className="w-4 h-4 text-blue-600" />
+        )}
+      </button>
+      <div className="text-sm text-gray-500 group-hover:text-blue-600 transition-colors duration-200">
+        {label || src}
+      </div>
+    </div>
+  );
+};
+
+const ColumnHeader: React.FC<ColumnHeaderProps> = ({ title, description }) => (
+  <Tooltip delayDuration={0}>
+    <TooltipTrigger className="flex items-center gap-1 cursor-help">
+      {title}
+      <Info className="w-4 h-4 text-gray-400" />
+    </TooltipTrigger>
+    <TooltipContent side="top" className="bg-white p-2 shadow-lg rounded-lg border text-black">
+      <p className="max-w-xs text-sm">{description}</p>
+    </TooltipContent>
+  </Tooltip>
+);
+
+const TTSSection: React.FC<TTSSectionProps> = ({ title, data }) => (
+  <div className="space-y-4">
+    <div className="flex items-center justify-center gap-2">
+      <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
+      <div className="text-sm text-gray-500">({data.length} samples)</div>
+    </div>
+    <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+      <Table>
+        <TableHeader>
+          <TableRow className="bg-gray-50">
+            <TableHead className="font-semibold text-left">
+              <ColumnHeader title="Speaker" description={columnDescriptions.speaker} />
+            </TableHead>
+            <TableHead className="font-semibold text-left">
+              <ColumnHeader title="Original Text" description={columnDescriptions.originalText} />
+            </TableHead>
+            <TableHead className="font-semibold text-left">
+              <ColumnHeader
+                title="Original Speech"
+                description={columnDescriptions.originalSpeech}
+              />
+            </TableHead>
+            <TableHead className="font-semibold text-left">
+              <ColumnHeader
+                title="Generated Speech"
+                description={columnDescriptions.generatedSpeech}
+              />
+            </TableHead>
+            <TableHead className="font-semibold text-left">
+              <ColumnHeader title="Generate Text" description={columnDescriptions.generateText} />
+            </TableHead>
+            <TableHead className="font-semibold text-left">
+              <ColumnHeader
+                title="Generated Speech (New)"
+                description={columnDescriptions.generatedSpeechNew}
+              />
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {data.map((row, idx) => (
+            <TableRow key={idx} className="hover:bg-gray-50 transition-colors duration-200">
+              <TableCell className="font-medium text-left">{row.speakerId}</TableCell>
+              <TableCell className="max-w-md">
+                <div className="text-sm text-gray-600 text-left">{row.originalText}</div>
+              </TableCell>
+              <TableCell>
+                <AudioPlayer src={row.originalSpeech} label="Original" />
+              </TableCell>
+              <TableCell>
+                <AudioPlayer src={row.generatedSpeech} label="Generated" />
+              </TableCell>
+              <TableCell className="max-w-md">
+                <div className="text-sm text-gray-600 text-left">{row.generateText}</div>
+              </TableCell>
+              <TableCell>
+                <AudioPlayer src={row.generatedSpeechNew} label="New Generated" />
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  </div>
+);
+
+const ModelSection: React.FC<ModelSectionProps> = ({ title, trainData, testData }) => (
+  <Card className="mb-8 border-0 shadow-lg mx-auto max-w-7xl">
+    <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-t-lg text-center">
+      <CardTitle className="text-xl text-blue-800">{title}</CardTitle>
+    </CardHeader>
+    <CardContent className="space-y-8 p-6">
+      <TTSSection title="Train (model seen)" data={trainData} />
+      <TTSSection title="Test (model unseen)" data={testData} />
+    </CardContent>
+  </Card>
+);
+
+const TTSPage: React.FC = () => {
+  const sampleData: TTSData[] = [
+    {
+      speakerId: 'Speaker_001',
+      originalText: 'The quick brown fox jumps over the lazy dog.',
+      originalSpeech: 'audio1.wav',
+      generatedSpeech: 'gen1.wav',
+      generateText: 'A quick silver cat runs under the sleepy bird.',
+      generatedSpeechNew: 'gen2.wav',
+    },
+    {
+      speakerId: 'Speaker_002',
+      originalText: 'The weather is beautiful today.',
+      originalSpeech: 'audio2.wav',
+      generatedSpeech: 'gen3.wav',
+      generateText: 'Tomorrow will be sunny and warm.',
+      generatedSpeechNew: 'gen4.wav',
+    },
+  ];
+
+  return (
+    <TooltipProvider>
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex flex-col items-center">
+        <div className="w-full max-w-[95vw] lg:max-w-[90vw] py-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center">
+            TTS Experiment Results
+          </h1>
+          <div className="space-y-8 flex flex-col items-center">
+            <ModelSection title="KhongKhunTTS" trainData={sampleData} testData={sampleData} />
+            <ModelSection title="VoiceCraft" trainData={sampleData} testData={sampleData} />
+          </div>
+        </div>
+      </div>
+    </TooltipProvider>
+  );
+};
+
+export default TTSPage;
