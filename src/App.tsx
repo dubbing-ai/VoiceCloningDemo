@@ -52,11 +52,9 @@ const columnDescriptions = {
     'Speech generated using the new text, with the original speech as voice reference input',
 } as const;
 
-const AudioPlayer: React.FC<AudioPlayerProps> = ({ label }) => {
+const AudioPlayer: React.FC<AudioPlayerProps> = ({ src, label }) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const audioRef = useRef<HTMLAudioElement>(
-    new Audio('https://cdnjs.cloudflare.com/ajax/libs/ion-sound/3.0.7/sounds/bell_ring.mp3')
-  );
+  const audioRef = useRef<HTMLAudioElement>(new Audio(src));
 
   const handlePlayPause = () => {
     if (isPlaying) {
@@ -143,8 +141,8 @@ const TTSSection: React.FC<TTSSectionProps> = ({ title, data }) => (
         <TableBody>
           {data.map((row, idx) => (
             <TableRow key={idx} className="hover:bg-gray-50 transition-colors duration-200">
-              <TableCell className="font-medium text-left">{row.speakerId}</TableCell>
-              <TableCell className="max-w-md">
+              <TableCell className="w-32 font-medium text-left">{row.speakerId}</TableCell>
+              <TableCell className="max-w-64">
                 <div className="text-sm text-gray-600 text-left">{row.originalText}</div>
               </TableCell>
               <TableCell>
@@ -153,7 +151,7 @@ const TTSSection: React.FC<TTSSectionProps> = ({ title, data }) => (
               <TableCell>
                 <AudioPlayer src={row.generatedSpeech} label="Generated" />
               </TableCell>
-              <TableCell className="max-w-md">
+              <TableCell className="max-w-64">
                 <div className="text-sm text-gray-600 text-left">{row.generateText}</div>
               </TableCell>
               <TableCell>
@@ -173,29 +171,49 @@ const ModelSection: React.FC<ModelSectionProps> = ({ title, trainData, testData 
       <CardTitle className="text-xl text-blue-800">{title}</CardTitle>
     </CardHeader>
     <CardContent className="space-y-8 p-6">
-      <TTSSection title="Train (model seen)" data={trainData} />
-      <TTSSection title="Test (model unseen)" data={testData} />
+      <TTSSection title="Train (seen data)" data={trainData} />
+      <TTSSection title="Test (unseen data)" data={testData} />
     </CardContent>
   </Card>
 );
 
 const TTSPage: React.FC = () => {
-  const sampleData: TTSData[] = [
+  const experiment0_train: TTSData[] = [
     {
-      speakerId: 'Speaker_001',
-      originalText: 'The quick brown fox jumps over the lazy dog.',
-      originalSpeech: 'audio1.wav',
-      generatedSpeech: 'gen1.wav',
-      generateText: 'A quick silver cat runs under the sleepy bird.',
-      generatedSpeechNew: 'gen2.wav',
+      speakerId: 'tsync2_0_728',
+      originalText: 'วัตถุระเบิดสารพิษและสารติดเชื้อวัตถุกัมมันตรังสีก๊าซ',
+      originalSpeech: './wav/experiment0/tsync2_0_728/ref.wav',
+      generatedSpeech: './wav/experiment0/tsync2_0_728/out1.wav',
+      generateText: 'ทดสอบการอ่านออกเสียงภาษาไทย',
+      generatedSpeechNew: './wav/experiment0/tsync2_0_728/out2.wav',
     },
     {
-      speakerId: 'Speaker_002',
-      originalText: 'The weather is beautiful today.',
-      originalSpeech: 'audio2.wav',
-      generatedSpeech: 'gen3.wav',
-      generateText: 'Tomorrow will be sunny and warm.',
-      generatedSpeechNew: 'gen4.wav',
+      speakerId: 'tsync2_55_3643',
+      originalText:
+        'และทูลแบบติดตลกว่าเรือใครใครทำซึ่งพระบาทสมเด็จพระเจ้าอยู่หัวก็ทรงทำได้อย่างมีพรสวรรค์',
+      originalSpeech: './wav/experiment0/tsync2_55_3643/ref.wav',
+      generatedSpeech: './wav/experiment0/tsync2_55_3643/out1.wav',
+      generateText: 'ทดสอบการอ่านออกเสียงภาษาไทย',
+      generatedSpeechNew: './wav/experiment0/tsync2_55_3643/out2.wav',
+    },
+  ];
+
+  const experiment0_test: TTSData[] = [
+    {
+      speakerId: 'jinny',
+      originalText: 'คุณช่วยแนะนำร้านอาหารอร่อยๆ หน่อยได้ไหมคะ',
+      originalSpeech: './wav/experiment0/jinny/ref.wav',
+      generatedSpeech: './wav/experiment0/jinny/out1.wav',
+      generateText: 'ทดสอบการอ่านออกเสียงภาษาไทย',
+      generatedSpeechNew: './wav/experiment0/jinny/out2.wav',
+    },
+    {
+      speakerId: 'ming',
+      originalText: 'ผมประทับใจกับความเป็นมิตรของคนไทยมากครับ',
+      originalSpeech: './wav/experiment0/ming/ref.wav',
+      generatedSpeech: './wav/experiment0/ming/out1.wav',
+      generateText: 'ทดสอบการอ่านออกเสียงภาษาไทย',
+      generatedSpeechNew: './wav/experiment0/ming/out2.wav',
     },
   ];
 
@@ -207,8 +225,12 @@ const TTSPage: React.FC = () => {
             TTS Experiment Results
           </h1>
           <div className="space-y-8 flex flex-col items-center">
-            <ModelSection title="KhongKhunTTS" trainData={sampleData} testData={sampleData} />
-            <ModelSection title="VoiceCraft" trainData={sampleData} testData={sampleData} />
+            <ModelSection
+              title="KhongKhunTTS (YourTTS on TSync2 only)"
+              trainData={experiment0_train}
+              testData={experiment0_test}
+            />
+            {/* <ModelSection title="VoiceCraft" trainData={sampleData} testData={sampleData} /> */}
           </div>
         </div>
       </div>
