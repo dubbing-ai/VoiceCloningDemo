@@ -141,8 +141,8 @@ const TTSSection: React.FC<TTSSectionProps> = ({ title, data }) => (
         <TableBody>
           {data.map((row, idx) => (
             <TableRow key={idx} className="hover:bg-gray-50 transition-colors duration-200">
-              <TableCell className="font-medium text-left">{row.speakerId}</TableCell>
-              <TableCell className="max-w-md">
+              <TableCell className="w-32 font-medium text-left">{row.speakerId}</TableCell>
+              <TableCell className="max-w-64">
                 <div className="text-sm text-gray-600 text-left">{row.originalText}</div>
               </TableCell>
               <TableCell>
@@ -151,7 +151,7 @@ const TTSSection: React.FC<TTSSectionProps> = ({ title, data }) => (
               <TableCell>
                 <AudioPlayer src={row.generatedSpeech} label="Generated" />
               </TableCell>
-              <TableCell className="max-w-md">
+              <TableCell className="max-w-64">
                 <div className="text-sm text-gray-600 text-left">{row.generateText}</div>
               </TableCell>
               <TableCell>
