@@ -52,7 +52,7 @@ const columnDescriptions = {
     'Speech generated using the new text, with the original speech as voice reference input',
 } as const;
 
-const AudioPlayer: React.FC<AudioPlayerProps> = ({ src, label }) => {
+const AudioPlayer: React.FC<AudioPlayerProps> = ({ label }) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const audioRef = useRef<HTMLAudioElement>(
     new Audio('https://cdnjs.cloudflare.com/ajax/libs/ion-sound/3.0.7/sounds/bell_ring.mp3')
