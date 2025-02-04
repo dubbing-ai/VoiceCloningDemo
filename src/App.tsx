@@ -171,8 +171,8 @@ const ModelSection: React.FC<ModelSectionProps> = ({ title, trainData, testData 
       <CardTitle className="text-xl text-blue-800">{title}</CardTitle>
     </CardHeader>
     <CardContent className="space-y-8 p-6">
-      <TTSSection title="Train (model seen)" data={trainData} />
-      <TTSSection title="Test (model unseen)" data={testData} />
+      <TTSSection title="Train (seen data)" data={trainData} />
+      <TTSSection title="Test (unseen data)" data={testData} />
     </CardContent>
   </Card>
 );
