@@ -8,7 +8,12 @@ import {
   TableBody,
   TableCell,
 } from '@/components/ui/table';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { Play, Pause, Info } from 'lucide-react';
 
 interface TTSData {
@@ -72,8 +77,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ src, label }) => {
     <div className="flex items-center justify-center gap-2 group">
       <button
         onClick={handlePlayPause}
-        className="p-2 rounded-full bg-gray-100 hover:bg-blue-100 transition-colors duration-200 group-hover:shadow-sm"
-      >
+        className="p-2 rounded-full bg-gray-100 hover:bg-blue-100 transition-colors duration-200 group-hover:shadow-sm">
         {isPlaying ? (
           <Pause className="w-4 h-4 text-blue-600" />
         ) : (
@@ -93,7 +97,9 @@ const ColumnHeader: React.FC<ColumnHeaderProps> = ({ title, description }) => (
       {title}
       <Info className="w-4 h-4 text-gray-400" />
     </TooltipTrigger>
-    <TooltipContent side="top" className="bg-white p-2 shadow-lg rounded-lg border text-black">
+    <TooltipContent
+      side="top"
+      className="bg-white p-2 shadow-lg rounded-lg border text-black">
       <p className="max-w-xs text-sm">{description}</p>
     </TooltipContent>
   </Tooltip>
@@ -110,10 +116,16 @@ const TTSSection: React.FC<TTSSectionProps> = ({ title, data }) => (
         <TableHeader>
           <TableRow className="bg-gray-50">
             <TableHead className="font-semibold text-left">
-              <ColumnHeader title="Speaker" description={columnDescriptions.speaker} />
+              <ColumnHeader
+                title="Speaker"
+                description={columnDescriptions.speaker}
+              />
             </TableHead>
             <TableHead className="font-semibold text-left">
-              <ColumnHeader title="Original Text" description={columnDescriptions.originalText} />
+              <ColumnHeader
+                title="Original Text"
+                description={columnDescriptions.originalText}
+              />
             </TableHead>
             <TableHead className="font-semibold text-left">
               <ColumnHeader
@@ -128,7 +140,10 @@ const TTSSection: React.FC<TTSSectionProps> = ({ title, data }) => (
               />
             </TableHead>
             <TableHead className="font-semibold text-left">
-              <ColumnHeader title="Generate Text" description={columnDescriptions.generateText} />
+              <ColumnHeader
+                title="Generate Text"
+                description={columnDescriptions.generateText}
+              />
             </TableHead>
             <TableHead className="font-semibold text-left">
               <ColumnHeader
@@ -140,10 +155,16 @@ const TTSSection: React.FC<TTSSectionProps> = ({ title, data }) => (
         </TableHeader>
         <TableBody>
           {data.map((row, idx) => (
-            <TableRow key={idx} className="hover:bg-gray-50 transition-colors duration-200">
-              <TableCell className="w-32 font-medium text-left">{row.speakerId}</TableCell>
+            <TableRow
+              key={idx}
+              className="hover:bg-gray-50 transition-colors duration-200">
+              <TableCell className="w-32 font-medium text-left">
+                {row.speakerId}
+              </TableCell>
               <TableCell className="max-w-64">
-                <div className="text-sm text-gray-600 text-left">{row.originalText}</div>
+                <div className="text-sm text-gray-600 text-left">
+                  {row.originalText}
+                </div>
               </TableCell>
               <TableCell>
                 <AudioPlayer src={row.originalSpeech} label="Original" />
@@ -152,10 +173,15 @@ const TTSSection: React.FC<TTSSectionProps> = ({ title, data }) => (
                 <AudioPlayer src={row.generatedSpeech} label="Generated" />
               </TableCell>
               <TableCell className="max-w-64">
-                <div className="text-sm text-gray-600 text-left">{row.generateText}</div>
+                <div className="text-sm text-gray-600 text-left">
+                  {row.generateText}
+                </div>
               </TableCell>
               <TableCell>
-                <AudioPlayer src={row.generatedSpeechNew} label="New Generated" />
+                <AudioPlayer
+                  src={row.generatedSpeechNew}
+                  label="New Generated"
+                />
               </TableCell>
             </TableRow>
           ))}
@@ -165,8 +191,12 @@ const TTSSection: React.FC<TTSSectionProps> = ({ title, data }) => (
   </div>
 );
 
-const ModelSection: React.FC<ModelSectionProps> = ({ title, trainData, testData }) => (
-  <Card className="mb-8 border-0 shadow-lg mx-auto max-w-7xl">
+const ModelSection: React.FC<ModelSectionProps> = ({
+  title,
+  trainData,
+  testData,
+}) => (
+  <Card className="mb-8 border-0 w-full shadow-lg mx-auto max-w-7xl">
     <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-t-lg text-center">
       <CardTitle className="text-xl text-blue-800">{title}</CardTitle>
     </CardHeader>
@@ -224,7 +254,7 @@ const TTSPage: React.FC = () => {
           <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center">
             TTS Experiment Results
           </h1>
-          <div className="space-y-8 flex flex-col items-center">
+          <div className="space-y-8 flex flex-col px-2 items-center">
             <ModelSection
               title="KhongKhunTTS (YourTTS on TSync2 only)"
               trainData={experiment0_train}
