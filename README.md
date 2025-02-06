@@ -4,6 +4,8 @@ A web application for demonstrating voice cloning model outputs, built with Vite
 
 🔗 **[Live Demo](https://dubbing-ai.github.io/VoiceCloningDemo/)**
 
+![Demo Screenshot](./fig/demo001.png)
+
 ## Overview
 
 This website provides an interactive interface to showcase and compare voice cloning model outputs, featuring:
@@ -23,21 +25,21 @@ This website provides an interactive interface to showcase and compare voice clo
 
 1. Install dependencies:
 
-```bash
-yarn install
-```
+   ```bash
+   yarn install
+   ```
 
-1. Run development server:
+2. Run development server:
 
-```bash
-yarn dev
-```
+   ```bash
+   yarn dev
+   ```
 
-1. Build for production:
+3. Build for production:
 
-```bash
-yarn build
-```
+   ```bash
+   yarn build
+   ```
 
 ## Features
 
