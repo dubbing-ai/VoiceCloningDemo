@@ -1,50 +1,86 @@
-# React + TypeScript + Vite
+# Voice Cloning Demo Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web application for demonstrating voice cloning model outputs, built with Vite, React, TailwindCSS, and shadcn/ui components.
 
-Currently, two official plugins are available:
+🔗 **[Live Demo](https://dubbing-ai.github.io/VoiceCloningDemo/)**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![Demo Screenshot](./fig/demo001.png)
 
-## Expanding the ESLint configuration
+## Overview
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+This website provides an interactive interface to showcase and compare voice cloning model outputs, featuring:
 
-- Configure the top-level `parserOptions` property like this:
+- Original vs generated speech comparison
+- Training (seen) vs test (unseen) data samples
+- Interactive audio playback controls
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Tech Stack
+
+- **Vite**: Next generation frontend tooling
+- **React**: UI library with TypeScript support
+- **TailwindCSS**: Utility-first CSS framework
+- **shadcn/ui**: High-quality React components built with Radix UI and TailwindCSS
+
+## Getting Started
+
+1. Install dependencies:
+
+   ```bash
+   yarn install
+   ```
+
+2. Run development server:
+
+   ```bash
+   yarn dev
+   ```
+
+3. Build for production:
+
+   ```bash
+   yarn build
+   ```
+
+## Features
+
+The demo currently showcases:
+
+- **KhongKhunTTS Model**: YourTTS trained on TSync2 dataset
+- Side-by-side comparisons of:
+  - Original text and speech
+  - Generated speech from original text
+  - New text input and corresponding generated speech
+- Interactive audio player with play/pause controls
+- Responsive design with clean UI components
+- Helpful tooltips for additional information
+
+## Project Structure
+
+```plaintext
+src/
+  components/
+    ui/          # shadcn/ui components
+  App.tsx        # Main application component
+  index.css      # Global styles and Tailwind directives
+  main.tsx       # Application entry point
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Development
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- Uses TypeScript for type safety
+- ESLint for code quality
+- Tailwind for styling
+- Path aliases configured for clean imports
+- GitHub Actions workflow for automated deployment
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## Adding New Samples
+
+To add new voice cloning samples:
+
+1. Add audio files to `public/wav/`
+2. Update the data structures in `App.tsx`
+3. The samples will automatically be organized into training and test sections
+
+## Deployment
+
+The project automatically deploys to GitHub Pages when changes are pushed to the main branch.
