@@ -77,7 +77,8 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ src, label }) => {
     <div className="flex items-center justify-center gap-2 group">
       <button
         onClick={handlePlayPause}
-        className="p-2 rounded-full bg-gray-100 hover:bg-blue-100 transition-colors duration-200 group-hover:shadow-sm">
+        className="p-2 rounded-full bg-gray-100 hover:bg-blue-100 transition-colors duration-200 group-hover:shadow-sm"
+      >
         {isPlaying ? (
           <Pause className="w-4 h-4 text-blue-600" />
         ) : (
@@ -99,7 +100,8 @@ const ColumnHeader: React.FC<ColumnHeaderProps> = ({ title, description }) => (
     </TooltipTrigger>
     <TooltipContent
       side="top"
-      className="bg-white p-2 shadow-lg rounded-lg border text-black">
+      className="bg-white p-2 shadow-lg rounded-lg border text-black"
+    >
       <p className="max-w-xs text-sm">{description}</p>
     </TooltipContent>
   </Tooltip>
@@ -157,7 +159,8 @@ const TTSSection: React.FC<TTSSectionProps> = ({ title, data }) => (
           {data.map((row, idx) => (
             <TableRow
               key={idx}
-              className="hover:bg-gray-50 transition-colors duration-200">
+              className="hover:bg-gray-50 transition-colors duration-200"
+            >
               <TableCell className="w-32 font-medium text-left">
                 {row.speakerId}
               </TableCell>
@@ -247,6 +250,54 @@ const TTSPage: React.FC = () => {
     },
   ];
 
+  const experiment1_train: TTSData[] = [
+    {
+      speakerId: 'cv030_066_mic1',
+      originalText: 'ตอนนี้เพื่อนไปเที่ยวโตเกียว',
+      originalSpeech: './wav/experiment1/cv030_066_mic1/ref.wav',
+      generatedSpeech: './wav/experiment1/cv030_066_mic1/out1.wav',
+      generateText: 'ทดสอบการอ่านออกเสียงภาษาไทย',
+      generatedSpeechNew: './wav/experiment1/cv030_066_mic1/out2.wav',
+    },
+    {
+      speakerId: 'cv112_112_mic1',
+      originalText: 'เครื่องเทศที่หายาก มาจากตะวันออกไกล',
+      originalSpeech: './wav/experiment1/cv112_112_mic1/ref.wav',
+      generatedSpeech: './wav/experiment1/cv112_112_mic1/out1.wav',
+      generateText: 'ทดสอบการอ่านออกเสียงภาษาไทย',
+      generatedSpeechNew: './wav/experiment1/cv112_112_mic1/out2.wav',
+    },
+  ];
+
+  const experiment1_test: TTSData[] = [
+    {
+      speakerId: 'ekapol_cut',
+      originalText: 'แมวคือเท่าไหร่ เป็นหมาคือเท่าไหร่ เป็นหนูคือเท่าไหร่',
+      originalSpeech: './wav/experiment1/ekapol_cut/ref.wav',
+      generatedSpeech: './wav/experiment1/ekapol_cut/out1.wav',
+      generateText: 'ทดสอบการอ่านออกเสียงภาษาไทย',
+      generatedSpeechNew: './wav/experiment1/ekapol_cut/out2.wav',
+    },
+    {
+      speakerId: 'ming_long_voice_cut',
+      originalText:
+        'ถ้าเราต้องการประสบความสำเร็จ เราควรตั้งเป้าหมายและพยายามอย่างเต็มที่ เพื่อให้ไปถึง',
+      originalSpeech: './wav/experiment1/ming_long_voice_cut/ref.wav',
+      generatedSpeech: './wav/experiment1/ming_long_voice_cut/out1.wav',
+      generateText: 'ทดสอบการอ่านออกเสียงภาษาไทย',
+      generatedSpeechNew: './wav/experiment1/ming_long_voice_cut/out2.wav',
+    },
+
+    {
+      speakerId: 'Jinny-all-th',
+      originalText: 'คุณช่วยแนะนำร้านอาหารอร่อยๆ หน่อยได้ไหมคะ',
+      originalSpeech: './wav/experiment1/Jinny-all-th/ref.wav',
+      generatedSpeech: './wav/experiment1/Jinny-all-th/out1.wav',
+      generateText: 'ทดสอบการอ่านออกเสียงภาษาไทย',
+      generatedSpeechNew: './wav/experiment1/Jinny-all-th/out2.wav',
+    },
+  ];
+
   return (
     <TooltipProvider>
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex flex-col items-center">
@@ -259,6 +310,11 @@ const TTSPage: React.FC = () => {
               title="KhongKhunTTS (YourTTS on TSync2 only)"
               trainData={experiment0_train}
               testData={experiment0_test}
+            />
+            <ModelSection
+              title="KhongKhunTTS (YourTTS on TSync2 and CommonVoice)"
+              trainData={experiment1_train}
+              testData={experiment1_test}
             />
             {/* <ModelSection title="VoiceCraft" trainData={sampleData} testData={sampleData} /> */}
           </div>
