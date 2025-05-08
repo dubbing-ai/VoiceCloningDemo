@@ -173,7 +173,9 @@ const TTSSection: React.FC<TTSSectionProps> = ({ title, data }) => (
                 <AudioPlayer src={row.originalSpeech} label="Original" />
               </TableCell>
               <TableCell>
-                <AudioPlayer src={row.generatedSpeech} label="Generated" />
+                {row.generatedSpeech && (
+                  <AudioPlayer src={row.generatedSpeech} label="Generated" />
+                )}
               </TableCell>
               <TableCell className="max-w-64">
                 <div className="text-sm text-gray-600 text-left">
@@ -298,6 +300,83 @@ const TTSPage: React.FC = () => {
     },
   ];
 
+  const experiment2_train: TTSData[] = [
+    {
+      speakerId: 'cv044',
+      originalText:
+        'กล้องซีซีทีวีปลอม ต่อสัมปทานบีทีเอสสามสิบปี ล้อมรั้วปิดสนามหลวง',
+      originalSpeech: './wav/experiment2/cv044/ref.wav',
+      generatedSpeech: './wav/experiment2/cv044/out1.wav',
+      generateText:
+        'การ์ตูนหุ่นยนต์กลายเป็นลักษณะเด่นของการ์ตูนญี่ปุ่นอย่างไรก็ตามไม่ใช่การ์ตูนญี่ปุ่นทุกเรื่องจะเป็นการ์ตูนหุ่นยนต์',
+      generatedSpeechNew: './wav/experiment2/cv044/out2.wav',
+    },
+    {
+      speakerId: 'cv062',
+      originalText:
+        'ฉันทำสิ่งนี้เพื่อป้องกันการขี่จักรยานและกระตุ้นให้เกิดการเคลื่อนไหวมากขึ้นผ่านพื้นที่ทางออก',
+      originalSpeech: './wav/experiment2/cv062/ref.wav',
+      generatedSpeech: './wav/experiment2/cv062/out1.wav',
+      generateText:
+        'นายกรัฐมนตรีขอเชิญชวนพุทธศาสนิกชนทุกคนร่วมงานสัปดาห์ส่งเสริมพระพุทธศาสนาเนื่องในเทศกาลวิสาขบูชา',
+      generatedSpeechNew: './wav/experiment2/cv062/out2.wav',
+    },
+  ];
+
+  const experiment2_test: TTSData[] = [
+    {
+      speakerId: 'speaker-008',
+      originalText:
+        'แต่กาฬโรคในยุคมืดที่แพร่ไวดังไฟป่า น่าจะติดต่อโดยตรงจากคนหนึ่งสู่อีกคนหนึ่งมากกว่า',
+      originalSpeech: './wav/experiment2/speaker-008/ref.wav',
+      generatedSpeech: './wav/experiment2/speaker-008/out1.wav',
+      generateText:
+        'หนึ่งในสิ่งที่น่าประหลาดใจและน่าฉงน เกี่ยวกับกาฬโรคก็คือ ความเจ็บป่วยนี้ ไม่ได้เป็นเหตุการณ์ใหม่เลย แต่เป็นสิ่งที่กระทบต่อมนุษย์มาหลายศตวรรษ',
+      generatedSpeechNew: './wav/experiment2/speaker-008/out2.wav',
+    },
+    {
+      speakerId: 'speaker-009',
+      originalText:
+        'ไม่ใช่เครื่องจักรด้วยซ้ำ แต่เป็นสิ่งมีชีวิตขนาดเล็กที่แปลคลื่นสมองและสัญญาณประสาท ของสัตว์ที่มีความรู้สึกนึกคิดผ่านโทรจิต',
+      originalSpeech: './wav/experiment2/speaker-009/ref.wav',
+      generatedSpeech: './wav/experiment2/speaker-009/out1.wav',
+      generateText:
+        'โปรแกรมการแปลแบบอิงกฎใช้ฐานข้อมูลศัพท์ ซึ่งรวมคำทั้งหมดที่พบได้ในพจนานุกรม',
+      generatedSpeechNew: './wav/experiment2/speaker-009/out2.wav',
+    },
+
+    {
+      speakerId: 'speaker-010',
+      originalText:
+        'ที่เราสามารถบอกได้ก็คือ การแก่ชราเกิดขึ้นเมื่อกระบวนการตามธรรมชาติ และปฏิสัมพันธ์ต่อสิ่งแวดล้อม',
+      originalSpeech: './wav/experiment2/speaker-010/ref.wav',
+      generatedSpeech: './wav/experiment2/speaker-010/out1.wav',
+      generateText:
+        'Organelle ที่เรียกว่า Mitochondria มีแนวโน้มที่จะได้รับความเสียหายนี้เป็นพิเศษ',
+      generatedSpeechNew: './wav/experiment2/speaker-010/out2.wav',
+    },
+    {
+      speakerId: 'speaker-021',
+      originalText:
+        'เราทำเพื่องาน แต่ในเวลาเดียวกันเราก็ทำเพื่อร่างกายเราเหมือนกัน เพื่อสุขภาพของเรา โอเค ถ้าเกิดสมมุติว่า ผม อยากจะ',
+      originalSpeech: './wav/experiment2/speaker-021/ref.wav',
+      generatedSpeech: './wav/experiment2/speaker-021/out1.wav',
+      generateText:
+        'In World War Two, I play a spy. I go investigate, you know, about a house.',
+      generatedSpeechNew: './wav/experiment2/speaker-021/out2.wav',
+    },
+    {
+      speakerId: 'speaker-024',
+      originalText:
+        "Do I know these people? Like why do they know so much about me? Like how could they say such things about me even though they don't know me?",
+      originalSpeech: './wav/experiment2/speaker-024/ref.wav',
+      generatedSpeech: './wav/experiment2/speaker-024/out1.wav',
+      generateText:
+        'หนูคิดว่า เรียกแบบนั้นก็ได้นะคะเพราะว่าเหมือน เริ่มจะมารู้ตอนที่แบบ เวลามีเรียน elective ที่โรงเรียน',
+      generatedSpeechNew: './wav/experiment2/speaker-024/out2.wav',
+    },
+  ];
+
   return (
     <TooltipProvider>
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex flex-col items-center">
@@ -315,6 +394,11 @@ const TTSPage: React.FC = () => {
               title="KhongKhunTTS (YourTTS on TSync2 and CommonVoice)"
               trainData={experiment1_train}
               testData={experiment1_test}
+            />
+            <ModelSection
+              title="KhongKhunTTS (YourTTS on LJSpeech + TSync2 and VCTK + CommonVoice + VTC)"
+              trainData={experiment2_train}
+              testData={experiment2_test}
             />
             {/* <ModelSection title="VoiceCraft" trainData={sampleData} testData={sampleData} /> */}
           </div>
