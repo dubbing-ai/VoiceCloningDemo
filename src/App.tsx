@@ -64,6 +64,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ src, label }) => {
   const handlePlayPause = () => {
     if (isPlaying) {
       audioRef.current.pause();
+      audioRef.current.currentTime = 0;
     } else {
       audioRef.current.play();
     }
